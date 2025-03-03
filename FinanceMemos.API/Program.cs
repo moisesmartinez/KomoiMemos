@@ -7,6 +7,12 @@ using FinanceMemos.API.Services;
 using FluentValidation.AspNetCore;
 using FluentValidation.AspNetCore;
 using FluentValidation;
+using FinanceMemos.API.Repositories.Interfaces;
+using FinanceMemos.API.Repositories;
+using FinanceMemos.API.Services.Interfaces;
+using Microsoft.AspNetCore.Diagnostics;
+using FinanceMemos.API.CustomExceptions;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,7 +63,54 @@ builder.Services.AddFluentValidationAutoValidation()
 // MM 04: Register validators from the assembly containing the specified type
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
+//MM 05: Register Auth repo and service
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<INoteRepository, NoteRepository>();
+builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddScoped<JwtTokenService>();
+
+//MM 05: Adding Mediatr
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+
 var app = builder.Build();
+
+//MM 06: Add exception handling middleware
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+        context.Response.ContentType = "application/json";
+
+        var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+        if (exceptionHandlerPathFeature?.Error is InputValidationException inputValidationException)
+        {
+            var response = new
+            {
+                Message = inputValidationException.Message
+            };
+            await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+        }
+        else if (exceptionHandlerPathFeature?.Error is ValidationException validationException)
+        {
+            var errors = validationException.Errors
+                .Select(e => new { e.PropertyName, e.ErrorMessage })
+                .ToList();
+            var response = new { Message = "Validation failed.", Errors = errors };
+            await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+        }
+        else
+        {
+            var response = new
+            {
+                Message = "An unexpected error occurred."
+            };
+            await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+        }
+    });
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

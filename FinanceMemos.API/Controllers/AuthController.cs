@@ -1,10 +1,7 @@
 ﻿using FinanceMemos.API.Data;
 using FinanceMemos.API.DTOs;
-using FinanceMemos.API.Helpers;
-using FinanceMemos.API.Models;
-using FinanceMemos.API.Services;
+using FinanceMemos.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace FinanceMemos.API.Controllers;
 
@@ -13,14 +10,13 @@ namespace FinanceMemos.API.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly KomoiMemosDbContext _context;
-    private readonly IConfiguration _configuration;
-    private readonly JwtTokenService _jwtTokenService;
+    private readonly IAuthService _authService;
 
-    public AuthController(KomoiMemosDbContext context, IConfiguration configuration, JwtTokenService jwtTokenService)
+    public AuthController(KomoiMemosDbContext context, 
+        IAuthService authService)
     {
         _context = context;
-        _configuration = configuration;
-        _jwtTokenService = jwtTokenService;
+        _authService = authService;
     }
 
     [HttpPost("register")]
@@ -31,16 +27,15 @@ public class AuthController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var user = new User
+        try
         {
-            Username = model.Username,
-            PasswordHash = PasswordHasher.HashPassword(model.Password)
-        };
-
-        _context.Users.Add(user);
-        await _context.SaveChangesAsync();
-
-        return Ok(new { Message = "User registered successfully" });
+            var result = await _authService.RegisterAsync(model);
+            return Ok(new { Message = result });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { Message = ex.Message });
+        }
     }
 
     [HttpPost("login")]
@@ -51,14 +46,14 @@ public class AuthController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == model.Username);
-
-        if (user != null && PasswordHasher.VerifyPassword(model.Password, user.PasswordHash))
+        try
         {
-            // Generate and return a JWT token
-            return Ok(new { Message = "Login successful" });
+            var token = await _authService.LoginAsync(model);
+            return Ok(new { Token = token });
         }
-
-        return Unauthorized();
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new { Message = ex.Message });
+        }
     }
 }

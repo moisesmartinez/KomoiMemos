@@ -1,5 +1,8 @@
 ﻿using FinanceMemos.API.Data;
+using FinanceMemos.API.Features.Events.Commands.CreateEvent;
+using FinanceMemos.API.Features.Events.Queries.GetEventById;
 using FinanceMemos.API.Models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,17 +12,26 @@ namespace FinanceMemos.API.Controllers
     [ApiController]
     public class EventsController : ControllerBase
     {
-        private readonly KomoiMemosDbContext _context;
+        private readonly IMediator _mediator;
 
-        public EventsController(KomoiMemosDbContext context)
+        public EventsController(IMediator mediator)
         {
-            _context = context;
+            _mediator = mediator;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Event>>> GetEvents()
+        [HttpPost]
+        public async Task<IActionResult> CreateEvent([FromBody] CreateEventCommand command)
         {
-            return await _context.Events.ToListAsync();
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetEventById(int id)
+        {
+            var query = new GetEventByIdQuery { EventId = id };
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
     }
 }

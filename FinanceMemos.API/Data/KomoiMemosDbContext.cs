@@ -40,6 +40,10 @@ public partial class KomoiMemosDbContext : DbContext
                 .HasColumnType("datetime");
             entity.Property(e => e.Description).HasMaxLength(500);
             entity.Property(e => e.Name).HasMaxLength(100);
+
+            entity.HasOne(d => d.User).WithMany(p => p.Events)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK_Events_Users");
         });
 
         modelBuilder.Entity<Expense>(entity =>
@@ -57,6 +61,11 @@ public partial class KomoiMemosDbContext : DbContext
             entity.HasOne(d => d.Event).WithMany(p => p.Expenses)
                 .HasForeignKey(d => d.EventId)
                 .HasConstraintName("FK_Expenses_Events");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Expenses)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Expenses_Users");
         });
 
         modelBuilder.Entity<Image>(entity =>
@@ -71,6 +80,11 @@ public partial class KomoiMemosDbContext : DbContext
             entity.HasOne(d => d.Note).WithMany(p => p.Images)
                 .HasForeignKey(d => d.NoteId)
                 .HasConstraintName("FK_Images_Notes");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Images)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Images_Users");
         });
 
         modelBuilder.Entity<Note>(entity =>
@@ -86,6 +100,11 @@ public partial class KomoiMemosDbContext : DbContext
             entity.HasOne(d => d.Event).WithMany(p => p.Notes)
                 .HasForeignKey(d => d.EventId)
                 .HasConstraintName("FK_Notes_Events");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Notes)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Notes_Users");
         });
 
         modelBuilder.Entity<User>(entity =>
