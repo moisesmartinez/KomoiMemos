@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35825.156 d17.13
+VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceMemos.API", "FinanceMemos.API\FinanceMemos.API.csproj", "{4A47C984-D06D-47CF-B3AD-2017DEE0A3FE}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "FinanceMemos.React", "FinanceMemos.React\FinanceMemos.React.esproj", "{BAEDA05A-B262-1E6F-7B32-8A911017990E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,12 @@ Global
 		{4A47C984-D06D-47CF-B3AD-2017DEE0A3FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A47C984-D06D-47CF-B3AD-2017DEE0A3FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A47C984-D06D-47CF-B3AD-2017DEE0A3FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAEDA05A-B262-1E6F-7B32-8A911017990E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAEDA05A-B262-1E6F-7B32-8A911017990E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAEDA05A-B262-1E6F-7B32-8A911017990E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{BAEDA05A-B262-1E6F-7B32-8A911017990E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAEDA05A-B262-1E6F-7B32-8A911017990E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAEDA05A-B262-1E6F-7B32-8A911017990E}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
