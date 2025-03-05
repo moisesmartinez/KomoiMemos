@@ -19,8 +19,8 @@ namespace FinanceMemos.API.Features.Expenses.Commands.CreateExpense
             RuleFor(x => x.Date)
                 .NotEmpty().WithMessage("Date is required.");
 
-            RuleFor(x => x.UserId)
-                .GreaterThan(0).WithMessage("UserId must be greater than 0.");
+            //RuleFor(x => x.UserId)
+            //    .GreaterThan(0).WithMessage("UserId must be greater than 0.");
         }
     }
 }

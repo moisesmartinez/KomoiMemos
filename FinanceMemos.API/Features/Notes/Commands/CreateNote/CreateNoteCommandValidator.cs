@@ -20,8 +20,8 @@ namespace FinanceMemos.API.Features.Notes.Commands.CreateNote
             RuleFor(x => x.EventId)
                 .GreaterThan(0).WithMessage("EventId must be greater than 0.");
 
-            RuleFor(x => x.UserId)
-                .GreaterThan(0).WithMessage("UserId must be greater than 0.");
+            //RuleFor(x => x.UserId)
+            //    .GreaterThan(0).WithMessage("UserId must be greater than 0.");
         }
     }
 }

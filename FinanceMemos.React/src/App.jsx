@@ -4,6 +4,7 @@ import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
 import EventDetails from "./components/EventDetails";
 import "./styles/index.css";
+import backgroundImage from "./assets/finance memos.jpeg";
 
 const App = () => {
     const isAuthenticated = !!localStorage.getItem("token"); // Check if the user is authenticated
@@ -17,7 +18,7 @@ const App = () => {
                     element={
                         <div className="landing-container">
                             <img
-                                src="https://images.pexels.com/photos/5716032/pexels-photo-5716032.jpeg"
+                                src={backgroundImage}
                                 alt="FinanceMemos"
                                 className="landing-image"
                             />
