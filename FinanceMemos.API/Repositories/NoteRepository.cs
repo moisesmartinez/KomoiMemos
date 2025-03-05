@@ -1,6 +1,7 @@
 ﻿using FinanceMemos.API.Data;
 using FinanceMemos.API.Models;
 using FinanceMemos.API.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinanceMemos.API.Repositories
 {
@@ -22,6 +23,13 @@ namespace FinanceMemos.API.Repositories
         public async Task<Note> GetByIdAsync(int id)
         {
             return await _context.Notes.FindAsync(id);
+        }
+
+        public async Task<List<Note>> GetByEventIdAsync(int eventId)
+        {
+            return await _context.Notes
+                .Where(n => n.EventId == eventId)
+                .ToListAsync();
         }
     }
 }

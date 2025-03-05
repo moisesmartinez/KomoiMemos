@@ -1,17 +1,16 @@
-using Microsoft.EntityFrameworkCore;
+using FinanceMemos.API.CustomExceptions;
 using FinanceMemos.API.Data;
+using FinanceMemos.API.Repositories;
+using FinanceMemos.API.Repositories.Interfaces;
+using FinanceMemos.API.Services;
+using FinanceMemos.API.Services.Interfaces;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using FinanceMemos.API.Services;
-using FluentValidation.AspNetCore;
-using FluentValidation.AspNetCore;
-using FluentValidation;
-using FinanceMemos.API.Repositories.Interfaces;
-using FinanceMemos.API.Repositories;
-using FinanceMemos.API.Services.Interfaces;
-using Microsoft.AspNetCore.Diagnostics;
-using FinanceMemos.API.CustomExceptions;
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);

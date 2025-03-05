@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom"; // Import Link
 import "../styles/Dashboard.css";
 
 const Dashboard = () => {
@@ -44,7 +44,7 @@ const Dashboard = () => {
         try {
             const token = localStorage.getItem("token");
             if (!token) {
-                navigate("/login"); // Redirect to login if no token is found
+                navigate("/login");
                 return;
             }
 
@@ -120,7 +120,9 @@ const Dashboard = () => {
                         <ul>
                             {events.map((event) => (
                                 <li key={event.id} className="event-item">
-                                    <h3>{event.name}</h3>
+                                    <Link to={`/event/${event.id}`} className="event-title-link">
+                                        <h3>{event.name}</h3>
+                                    </Link>
                                     <p>{event.description}</p>
                                     <small>Created on: {new Date(event.createdAt).toLocaleDateString()}</small>
                                 </li>

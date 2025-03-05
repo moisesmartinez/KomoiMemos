@@ -2,9 +2,12 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
+import EventDetails from "./components/EventDetails";
 import "./styles/index.css";
 
 const App = () => {
+    const isAuthenticated = !!localStorage.getItem("token"); // Check if the user is authenticated
+
     return (
         <Router>
             <Routes>
@@ -21,12 +24,20 @@ const App = () => {
                             <h1>Welcome to FinanceMemos!</h1>
                             <p>Your personal finance and memo management app.</p>
                             <div className="landing-buttons">
-                                <a href="/login" className="landing-button">
-                                    Login
-                                </a>
-                                <a href="/register" className="landing-button">
-                                    Register
-                                </a>
+                                {isAuthenticated ? (
+                                    <a href="/dashboard" className="landing-button">
+                                        Go to Dashboard
+                                    </a>
+                                ) : (
+                                    <>
+                                        <a href="/login" className="landing-button">
+                                            Login
+                                        </a>
+                                        <a href="/register" className="landing-button">
+                                            Register
+                                        </a>
+                                    </>
+                                )}
                             </div>
                         </div>
                     }
@@ -42,8 +53,20 @@ const App = () => {
                 <Route
                     path="/dashboard"
                     element={
-                        localStorage.getItem("token") ? (
+                        isAuthenticated ? (
                             <Dashboard />
+                        ) : (
+                            <Navigate to="/login" replace />
+                        )
+                    }
+                />
+
+                {/* Route for Event Details */}
+                <Route
+                    path="/event/:id"
+                    element={
+                        isAuthenticated ? (
+                            <EventDetails />
                         ) : (
                             <Navigate to="/login" replace />
                         )

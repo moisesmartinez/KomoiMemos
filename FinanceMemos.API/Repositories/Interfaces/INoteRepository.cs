@@ -6,5 +6,6 @@ namespace FinanceMemos.API.Repositories.Interfaces
     {
         Task AddAsync(Note note);
         Task<Note> GetByIdAsync(int id);
+        Task<List<Note>> GetByEventIdAsync(int eventId);
     }
 }

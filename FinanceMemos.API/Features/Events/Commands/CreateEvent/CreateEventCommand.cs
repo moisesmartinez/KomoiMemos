@@ -6,7 +6,7 @@ namespace FinanceMemos.API.Features.Events.Commands.CreateEvent
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public int UserId { get; set; } // Added UserId to associate the event with a user
+        public int UserId { get; set; }
     }
 
     public class CreateEventResponse

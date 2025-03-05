@@ -8,7 +8,7 @@ namespace FinanceMemos.API.Features.Notes.Commands.CreateNote
         public string Description { get; set; }
         public string Type { get; set; }
         public int EventId { get; set; }
-        public int UserId { get; set; } // Added UserId to associate the note with a user
+        public int UserId { get; set; }
     }
 
     public class CreateNoteResponse

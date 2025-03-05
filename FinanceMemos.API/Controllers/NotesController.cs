@@ -1,6 +1,8 @@
 ﻿using FinanceMemos.API.Features.Notes.Commands.CreateNote;
 using FinanceMemos.API.Features.Notes.Queries.GetNoteById;
+using FinanceMemos.API.Features.Notes.Queries.GetNotesByEventId;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceMemos.API.Controllers;
@@ -23,10 +25,20 @@ public class NotesController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize]
     [HttpPost("notes")]
     public async Task<IActionResult> CreateNote([FromBody] CreateNoteCommand command)
     {
         var result = await _mediator.Send(command);
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpGet("event/{eventId}")]
+    public async Task<IActionResult> GetNotesByEventId(int eventId)
+    {
+        var query = new GetNotesByEventIdQuery { EventId = eventId };
+        var result = await _mediator.Send(query);
         return Ok(result);
     }
 }
