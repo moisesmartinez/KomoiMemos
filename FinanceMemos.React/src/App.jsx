@@ -1,35 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Dashboard from "./components/Dashboard";
+import "./styles/index.css";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+    return (
+        <Router>
+            <Routes>
+                {/* Route for the Landing Page */}
+                <Route
+                    path="/"
+                    element={
+                        <div className="landing-container">
+                            <img
+                                src="https://images.pexels.com/photos/5716032/pexels-photo-5716032.jpeg"
+                                alt="FinanceMemos"
+                                className="landing-image"
+                            />
+                            <h1>Welcome to FinanceMemos!</h1>
+                            <p>Your personal finance and memo management app.</p>
+                            <div className="landing-buttons">
+                                <a href="/login" className="landing-button">
+                                    Login
+                                </a>
+                                <a href="/register" className="landing-button">
+                                    Register
+                                </a>
+                            </div>
+                        </div>
+                    }
+                />
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+                {/* Route for the Login Page */}
+                <Route path="/login" element={<Login />} />
 
-export default App
+                {/* Route for the Register Page */}
+                <Route path="/register" element={<Register />} />
+
+                {/* Route for the Dashboard */}
+                <Route
+                    path="/dashboard"
+                    element={
+                        localStorage.getItem("token") ? (
+                            <Dashboard />
+                        ) : (
+                            <Navigate to="/login" replace />
+                        )
+                    }
+                />
+            </Routes>
+        </Router>
+    );
+};
+
+export default App;

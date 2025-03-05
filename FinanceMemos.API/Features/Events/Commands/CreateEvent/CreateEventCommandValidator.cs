@@ -8,13 +8,14 @@ namespace FinanceMemos.API.Features.Events.Commands.CreateEvent
         {
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage("Name is required.")
-                .MaximumLength(100).WithMessage("Name must not exceed 100 characters.");
+                .MinimumLength(5).WithMessage("Event Name must be at least 5 characters long.")
+                .MaximumLength(100).WithMessage("Event Name must not exceed 100 characters.");
 
             RuleFor(x => x.Description)
                 .MaximumLength(500).WithMessage("Description must not exceed 500 characters.");
 
-            RuleFor(x => x.UserId)
-                .GreaterThan(0).WithMessage("UserId must be greater than 0.");
+            //RuleFor(x => x.UserId)
+            //    .GreaterThan(0).WithMessage("UserId must be greater than 0.");
         }
     }
 }

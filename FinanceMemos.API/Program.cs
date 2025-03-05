@@ -74,7 +74,24 @@ builder.Services.AddScoped<JwtTokenService>();
 //MM 05: Adding Mediatr
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
+//MM 07: Add CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:52240")
+                   .AllowAnyMethod()
+                   .AllowAnyHeader()
+                   .AllowCredentials();
+        });
+});
+
+
 var app = builder.Build();
+
+//MM 07: Use CORS middleware
+app.UseCors("AllowReactApp");
 
 //MM 06: Add exception handling middleware
 app.UseExceptionHandler(errorApp =>

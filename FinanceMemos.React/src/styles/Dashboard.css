@@ -1,0 +1,205 @@
+/* src/styles/Dashboard.css */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+    .dashboard-header h1 {
+        font-size: 2.5em;
+        color: #00796b;
+    }
+
+.logout-button {
+    padding: 10px 20px;
+    background-color: #00796b;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    .logout-button:hover {
+        background-color: #004d40;
+    }
+
+.dashboard-content {
+    display: flex;
+    gap: 20px;
+}
+
+.event-list {
+    flex: 1;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+    .event-list h2 {
+        font-size: 1.8em;
+        color: #00796b;
+        margin-bottom: 10px;
+    }
+
+    .event-list ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+.event-item {
+    background-color: #e0f7fa;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+    .event-item h3 {
+        font-size: 1.5em;
+        color: #004d40;
+        margin-bottom: 5px;
+    }
+
+    .event-item p {
+        font-size: 1em;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .event-item small {
+        font-size: 0.8em;
+        color: #666;
+    }
+
+.create-event {
+    flex: 1;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+    .create-event h2 {
+        font-size: 1.8em;
+        color: #00796b;
+        margin-bottom: 10px;
+    }
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+    .form-group label {
+        display: block;
+        font-weight: 500;
+        color: #004d40;
+        margin-bottom: 5px;
+    }
+
+/* src/styles/Dashboard.css */
+
+/* Ensure textboxes have a white background */
+.form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box;
+    background-color: #ffffff; /* White background */
+    color: #213547; /* Dark text */
+}
+
+    /* Ensure textareas have a white background */
+    .form-input[type="textarea"] {
+        resize: vertical; /* Allow vertical resizing */
+    }
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+    .form-input {
+        background-color: #ffffff; /* White background */
+        color: #213547; /* Dark text */
+    }
+}
+
+.create-button {
+    padding: 10px 20px;
+    background-color: #00796b;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    .create-button:hover {
+        background-color: #004d40;
+    }
+
+.error-message {
+    color: #ff0000;
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* src/styles/Dashboard.css */
+
+/* Modal styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.create-event-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.cancel-button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #ccc;
+    color: #000;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    .cancel-button:hover {
+        background-color: #999;
+    }
+
+.error-message {
+    color: #ff0000;
+    margin-top: 10px;
+}

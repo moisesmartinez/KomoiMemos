@@ -1,0 +1,148 @@
+/* src/styles/index.css */
+:root {
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    color-scheme: light dark;
+    color: #213547; /* Dark text for light mode */
+    background-color: #e0f7fa; /* Light cyan background for light mode */
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Center the entire app */
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    min-height: 100vh; /* Full viewport height */
+    background-color: #e0f7fa; /* Light cyan background */
+}
+
+h1 {
+    font-size: 3.2em;
+    line-height: 1.1;
+    text-align: center; /* Center the text */
+    color: #00796b; /* Dark cyan text for headings */
+}
+
+a {
+    font-weight: 500;
+    color: #00796b; /* Dark cyan for links */
+    text-decoration: none;
+}
+
+    a:hover {
+        color: #004d40; /* Darker cyan for hover state */
+    }
+
+button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #00796b; /* Dark cyan for buttons */
+    color: #ffffff; /* White text for buttons */
+    cursor: pointer;
+    transition: background-color 0.25s;
+}
+
+    button:hover {
+        background-color: #004d40; /* Darker cyan for hover state */
+    }
+
+    button:focus,
+    button:focus-visible {
+        outline: 4px auto -webkit-focus-ring-color;
+    }
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+    :root {
+        color: rgba(255, 255, 255, 0.87); /* Light text for dark mode */
+        background-color: #004d40; /* Dark cyan background for dark mode */
+    }
+
+    h1 {
+        color: #ffffff; /* White text for headings in dark mode */
+    }
+
+    a {
+        color: #80cbc4; /* Light cyan for links in dark mode */
+    }
+
+        a:hover {
+            color: #b2dfdb; /* Lighter cyan for hover state in dark mode */
+        }
+
+    button {
+        background-color: #00796b; /* Dark cyan for buttons in dark mode */
+        color: #ffffff; /* White text for buttons in dark mode */
+    }
+
+        button:hover {
+            background-color: #004d40; /* Darker cyan for hover state in dark mode */
+        }
+}
+
+/* src/styles/index.css */
+.landing-container {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.landing-container h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    color: #00796b; /* Dark cyan text for the heading */
+}
+
+.landing-container p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #004d40; /* Darker cyan text for the paragraph */
+}
+
+.landing-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.landing-button {
+    padding: 10px 20px;
+    background-color: #00796b; /* Dark cyan for buttons */
+    color: #ffffff; /* White text for buttons */
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.landing-button:hover {
+    background-color: #004d40;
+}
+
+.landing-image {
+    /*max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 20px;*/
+
+    width: 600px;
+    height: 200px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}

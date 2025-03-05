@@ -1,5 +1,7 @@
 ﻿using FinanceMemos.API.Data;
 using FinanceMemos.API.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinanceMemos.API.Repositories.Interfaces
 {
@@ -18,9 +20,19 @@ namespace FinanceMemos.API.Repositories.Interfaces
             await _context.SaveChangesAsync();
         }
 
+        [Authorize]
         public async Task<Event> GetByIdAsync(int id)
         {
             return await _context.Events.FindAsync(id);
+        }
+
+        [Authorize]
+        public async Task<List<Event>> GetByUserIdAsync(int userId)
+        {
+            return await _context
+                .Events
+                .Where(x => x.UserId == userId)
+                .ToListAsync();
         }
     }
 }
