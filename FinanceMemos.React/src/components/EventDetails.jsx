@@ -8,7 +8,8 @@ const EventDetails = () => {
     const [event, setEvent] = useState(null);
     const [notes, setNotes] = useState([]);
     const [expenses, setExpenses] = useState([]);
-    const [error, setError] = useState("");
+    const [noteErrors, setNoteErrors] = useState([]); // Errors for note creation
+    const [expenseErrors, setExpenseErrors] = useState([]); // Errors for expense creation
     const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
     const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
     const [newNoteTitle, setNewNoteTitle] = useState("");
@@ -17,7 +18,7 @@ const EventDetails = () => {
     const [newExpenseAmount, setNewExpenseAmount] = useState("");
     const [newExpenseCategory, setNewExpenseCategory] = useState("");
     const [newExpenseDescription, setNewExpenseDescription] = useState("");
-    const [newExpenseDate, setNewExpenseDate] = useState("");
+    const [newExpenseDate, setNewExpenseDate] = useState(new Date().toISOString().split("T")[0]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -43,7 +44,6 @@ const EventDetails = () => {
             setEvent(response.data);
         } catch (err) {
             console.error("Error fetching event details:", err);
-            setError("Failed to fetch event details. Please try again.");
         }
     };
 
@@ -64,7 +64,6 @@ const EventDetails = () => {
             setNotes(response.data);
         } catch (err) {
             console.error("Error fetching notes:", err);
-            setError("Failed to fetch notes. Please try again.");
         }
     };
 
@@ -85,7 +84,6 @@ const EventDetails = () => {
             setExpenses(response.data);
         } catch (err) {
             console.error("Error fetching expenses:", err);
-            setError("Failed to fetch expenses. Please try again.");
         }
     };
 
@@ -102,7 +100,7 @@ const EventDetails = () => {
 
     const handleCreateNote = async (e) => {
         e.preventDefault();
-        setError([]); // Clear previous errors
+        setNoteErrors([]); // Clear previous errors
 
         try {
             const token = localStorage.getItem("token");
@@ -118,7 +116,7 @@ const EventDetails = () => {
                 eventId: id,
             };
 
-            const response = await axios.post("https://localhost:7035/api/notes", payload, {
+            const response = await axios.post("https://localhost:7035/api/Notes/notes", payload, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -141,24 +139,24 @@ const EventDetails = () => {
                         const errorMessages = Object.entries(problemDetails.errors)
                             .map(([field, messages]) => `${field}: ${messages.join(", ")}`)
                             .flat();
-                        setError(errorMessages);
+                        setNoteErrors(errorMessages);
                     } else {
-                        setError([problemDetails.title || "Failed to create note. Please try again."]);
+                        setNoteErrors([problemDetails.title || "Failed to create note. Please try again."]);
                     }
                 } else {
-                    setError([err.response.data.message || "Failed to create note. Please try again."]);
+                    setNoteErrors([err.response.data.message || "Failed to create note. Please try again."]);
                 }
             } else if (err.request) {
-                setError(["No response from the server. Please check your connection."]);
+                setNoteErrors(["No response from the server. Please check your connection."]);
             } else {
-                setError(["An error occurred. Please try again."]);
+                setNoteErrors(["An error occurred. Please try again."]);
             }
         }
     };
 
     const handleCreateExpense = async (e) => {
         e.preventDefault();
-        setError([]); // Clear previous errors
+        setExpenseErrors([]); // Clear previous errors
 
         try {
             const token = localStorage.getItem("token");
@@ -171,11 +169,11 @@ const EventDetails = () => {
                 amount: parseFloat(newExpenseAmount),
                 category: newExpenseCategory,
                 description: newExpenseDescription,
-                date: newExpenseDate,
+                date: newExpenseDate, // Already in the correct format (YYYY-MM-DD)
                 eventId: id,
             };
 
-            const response = await axios.post("https://localhost:7035/api/expenses", payload, {
+            const response = await axios.post("https://localhost:7035/api/Expenses/expenses", payload, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -189,7 +187,7 @@ const EventDetails = () => {
             setNewExpenseAmount("");
             setNewExpenseCategory("");
             setNewExpenseDescription("");
-            setNewExpenseDate("");
+            setNewExpenseDate(new Date().toISOString().split("T")[0]); // Reset to today's date
         } catch (err) {
             console.error("Error creating expense:", err);
             if (err.response) {
@@ -199,24 +197,20 @@ const EventDetails = () => {
                         const errorMessages = Object.entries(problemDetails.errors)
                             .map(([field, messages]) => `${field}: ${messages.join(", ")}`)
                             .flat();
-                        setError(errorMessages);
+                        setExpenseErrors(errorMessages);
                     } else {
-                        setError([problemDetails.title || "Failed to create expense. Please try again."]);
+                        setExpenseErrors([problemDetails.title || "Failed to create expense. Please try again."]);
                     }
                 } else {
-                    setError([err.response.data.message || "Failed to create expense. Please try again."]);
+                    setExpenseErrors([err.response.data.message || "Failed to create expense. Please try again."]);
                 }
             } else if (err.request) {
-                setError(["No response from the server. Please check your connection."]);
+                setExpenseErrors(["No response from the server. Please check your connection."]);
             } else {
-                setError(["An error occurred. Please try again."]);
+                setExpenseErrors(["An error occurred. Please try again."]);
             }
         }
     };
-
-    if (error) {
-        return <div className="error-message">{error}</div>;
-    }
 
     if (!event) {
         return <div>Loading...</div>;
@@ -324,6 +318,15 @@ const EventDetails = () => {
                                     <option value="Reminder">Reminder</option>
                                 </select>
                             </div>
+                            {noteErrors.length > 0 && (
+                                <div className="error-message">
+                                    <ul>
+                                        {noteErrors.map((message, index) => (
+                                            <li key={index}>{message}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
                             <button type="submit" className="create-button">
                                 Create Note
                             </button>
@@ -335,15 +338,6 @@ const EventDetails = () => {
                                 Cancel
                             </button>
                         </form>
-                        {error.length > 0 && (
-                            <div className="error-message">
-                                <ul>
-                                    {error.map((message, index) => (
-                                        <li key={index}>{message}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
                     </div>
                 </div>
             )}
@@ -366,13 +360,22 @@ const EventDetails = () => {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="expenseCategory">Category:</label>
-                                <input
-                                    type="text"
+                                <select
                                     id="expenseCategory"
                                     value={newExpenseCategory}
                                     onChange={(e) => setNewExpenseCategory(e.target.value)}
                                     required
-                                />
+                                >
+                                    <option value="">Select a category</option>
+                                    <option value="Food">Food</option>
+                                    <option value="Transport">Transport</option>
+                                    <option value="Accommodation">Accommodation</option>
+                                    <option value="Entertainment">Entertainment</option>
+                                    <option value="Shopping">Shopping</option>
+                                    <option value="Utilities">Utilities</option>
+                                    <option value="Health">Health</option>
+                                    <option value="Other">Other</option>
+                                </select>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="expenseDescription">Description:</label>
@@ -393,6 +396,15 @@ const EventDetails = () => {
                                     required
                                 />
                             </div>
+                            {expenseErrors.length > 0 && (
+                                <div className="error-message">
+                                    <ul>
+                                        {expenseErrors.map((message, index) => (
+                                            <li key={index}>{message}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
                             <button type="submit" className="create-button">
                                 Create Expense
                             </button>
@@ -404,15 +416,6 @@ const EventDetails = () => {
                                 Cancel
                             </button>
                         </form>
-                        {error.length > 0 && (
-                            <div className="error-message">
-                                <ul>
-                                    {error.map((message, index) => (
-                                        <li key={index}>{message}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
                     </div>
                 </div>
             )}

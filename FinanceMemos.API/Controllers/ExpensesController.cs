@@ -4,6 +4,7 @@ using FinanceMemos.API.Features.Expenses.Queries.GetExpensesByEventId;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FinanceMemos.API.Controllers;
 
@@ -20,6 +21,15 @@ public class ExpensesController : ControllerBase
     [HttpPost("expenses")]
     public async Task<IActionResult> CreateExpense([FromBody] CreateExpenseCommand command)
     {
+        // Extract UserId from the token
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrEmpty(userId))
+        {
+            return Unauthorized(new { Message = "User ID not found in the token." });
+        }
+
+        command.UserId = int.Parse(userId);
         var result = await _mediator.Send(command);
         return Ok(result);
     }
