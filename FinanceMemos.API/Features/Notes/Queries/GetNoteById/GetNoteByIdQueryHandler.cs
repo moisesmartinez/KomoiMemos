@@ -29,6 +29,7 @@ namespace FinanceMemos.API.Features.Notes.Queries.GetNoteById
                 Title = note.Title,
                 Description = note.Description,
                 Type = note.Type,
+                ImageUrl = note.Images.FirstOrDefault()?.ImageUrl,
                 CreatedAt = note.CreatedAt
             };
 

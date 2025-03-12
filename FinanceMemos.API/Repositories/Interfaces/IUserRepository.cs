@@ -6,5 +6,7 @@ namespace FinanceMemos.API.Repositories.Interfaces
     {
         Task<User> GetUserByUsernameAsync(string username);
         Task AddUserAsync(User user);
+        //Function that checks if the user exists
+        Task<bool> IsUserFound(int userId);
     }
 }

@@ -30,20 +30,20 @@ namespace FinanceMemos.API.DTOs
         }
     }
 
-    /*public class RegisterDTO_WithDataAnnotations
-    {
-        [Required(ErrorMessage = "Username is required.")]
-        [StringLength(100, MinimumLength = 3, ErrorMessage = "Username must be between 3 and 100 characters.")]
-        public string Username { get; set; }
+    //public class RegisterDTO_WithDataAnnotations
+    //{
+    //    [Required(ErrorMessage = "Username is required.")]
+    //    [StringLength(100, MinimumLength = 3, ErrorMessage = "Username must be between 3 and 100 characters.")]
+    //    public string Username { get; set; }
 
-        [Required(ErrorMessage = "Password is required.")]
-        [StringLength(100, MinimumLength = 8, ErrorMessage = "Password must be at least 8 characters long.")]
-        [RegularExpression(@"^(?=.*[A-Z])(?=.*\d).+$", ErrorMessage = "Password must contain at least one uppercase letter and one digit.")]
-        public string Password { get; set; }
+    //    [Required(ErrorMessage = "Password is required.")]
+    //    [StringLength(100, MinimumLength = 8, ErrorMessage = "Password must be at least 8 characters long.")]
+    //    [RegularExpression(@"^(?=.*[A-Z])(?=.*\d).+$", ErrorMessage = "Password must contain at least one uppercase letter and one digit.")]
+    //    public string Password { get; set; }
 
-        [Required(ErrorMessage = "Confirm Password is required.")]
-        [Compare("Password", ErrorMessage = "Passwords do not match.")]
-        public string ConfirmPassword { get; set; }
-    }*/
+    //    [Required(ErrorMessage = "Confirm Password is required.")]
+    //    [Compare("Password", ErrorMessage = "Passwords do not match.")]
+    //    public string ConfirmPassword { get; set; }
+    //}
 
 }

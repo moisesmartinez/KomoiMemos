@@ -24,6 +24,7 @@ namespace FinanceMemos.API.Features.Notes.Queries.GetNotesByEventId
                     Title = n.Title,
                     Description = n.Description,
                     Type = n.Type,
+                    ImageUrl = n.Images.FirstOrDefault()?.ImageUrl,
                     CreatedAt = n.CreatedAt
                 })
                 .ToList();

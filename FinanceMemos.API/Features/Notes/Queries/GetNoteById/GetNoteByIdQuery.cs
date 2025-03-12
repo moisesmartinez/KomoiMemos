@@ -15,6 +15,7 @@ namespace FinanceMemos.API.Features.Notes.Queries.GetNoteById
         public string Type { get; set; }
         public int EventId { get; set; }
         public int UserId { get; set; }
+        public string ImageUrl { get; set; }
         public DateTime CreatedAt { get; set; }
     }
 }

@@ -28,7 +28,7 @@ public class NotesController : ControllerBase
 
     [Authorize]
     [HttpPost("notes")]
-    public async Task<IActionResult> CreateNote([FromBody] CreateNoteCommand command)
+    public async Task<IActionResult> CreateNote([FromForm] CreateNoteCommand command)
     {
         // Extract UserId from the token
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;

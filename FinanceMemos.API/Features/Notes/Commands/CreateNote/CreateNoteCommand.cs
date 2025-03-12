@@ -9,6 +9,7 @@ namespace FinanceMemos.API.Features.Notes.Commands.CreateNote
         public string Type { get; set; }
         public int EventId { get; set; }
         public int UserId { get; set; }
+        public IFormFile ImageFile { get; set; }
     }
 
     public class CreateNoteResponse

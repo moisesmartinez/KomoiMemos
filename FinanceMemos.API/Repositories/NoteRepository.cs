@@ -27,9 +27,15 @@ namespace FinanceMemos.API.Repositories
 
         public async Task<List<Note>> GetByEventIdAsync(int eventId)
         {
+            //Return the notes with images by EventId
             return await _context.Notes
+                .Include(n => n.Images)
                 .Where(n => n.EventId == eventId)
                 .ToListAsync();
+
+            //return await _context.Notes
+            //    .Where(n => n.EventId == eventId)
+            //    .ToListAsync();
         }
     }
 }

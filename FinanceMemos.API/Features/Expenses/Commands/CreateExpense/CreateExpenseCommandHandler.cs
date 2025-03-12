@@ -1,40 +1,49 @@
-﻿using FinanceMemos.API.Data;
+﻿using FinanceMemos.API.CustomExceptions;
 using FinanceMemos.API.Models;
-using FinanceMemos.API.Repositories;
 using FinanceMemos.API.Repositories.Interfaces;
 using MediatR;
 
-namespace FinanceMemos.API.Features.Expenses.Commands.CreateExpense
+namespace FinanceMemos.API.Features.Expenses.Commands.CreateExpense;
+
+public class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseCommand, CreateExpenseResponse>
 {
-    public class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseCommand, CreateExpenseResponse>
+    private readonly IExpenseRepository _expenseRepository;
+    private readonly IUserRepository _userRepository;
+    private readonly IEventRepository _eventRepository;
+
+    public CreateExpenseCommandHandler(IExpenseRepository expenseRepository,
+        IUserRepository userRepository,
+        IEventRepository eventRepository)
     {
-        private readonly IExpenseRepository _expenseRepository;
+        _expenseRepository = expenseRepository;
+        _userRepository = userRepository;
+        _eventRepository = eventRepository;
+    }
 
-        public CreateExpenseCommandHandler(IExpenseRepository expenseRepository)
+    public async Task<CreateExpenseResponse> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)
+    {
+        if(await _userRepository.IsUserFound(request.UserId) == false 
+            || await _eventRepository.IsEventFound(request.EventId) == false)
         {
-            _expenseRepository = expenseRepository;
+            throw new InputValidationException("Error inserting Expense. Try again.");
         }
-
-        public async Task<CreateExpenseResponse> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)
+        var expense = new Expense
         {
-            var expense = new Expense
-            {
-                EventId = request.EventId,
-                Amount = request.Amount,
-                Category = request.Category,
-                Date = request.Date,
-                Description = request.Description,
-                UserId = request.UserId,
-                CreatedAt = DateTime.UtcNow
-            };
+            EventId = request.EventId,
+            Amount = request.Amount,
+            Category = request.Category,
+            Date = request.Date,
+            Description = request.Description,
+            UserId = request.UserId,
+            CreatedAt = DateTime.UtcNow
+        };
 
-            await _expenseRepository.AddAsync(expense);
+        await _expenseRepository.AddAsync(expense);
 
-            return new CreateExpenseResponse
-            {
-                ExpenseId = expense.Id,
-                Message = "Expense created successfully."
-            };
-        }
+        return new CreateExpenseResponse
+        {
+            ExpenseId = expense.Id,
+            Message = "Expense created successfully."
+        };
     }
 }

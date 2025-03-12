@@ -106,7 +106,7 @@ const Dashboard = () => {
                 <button onClick={() => setIsModalOpen(true)} className="create-event-button">
                     Create Event
                 </button>
-                <button onClick={() => { localStorage.removeItem("token"); navigate("/login"); }} className="logout-button">
+                <button onClick={() => { localStorage.removeItem("token"); navigate("/"); }} className="logout-button">
                     Logout
                 </button>
             </header>

@@ -1,5 +1,6 @@
 .event-details-container {
     max-width: 1200px;
+    min-width: 800px;
     margin: 0 auto;
     padding: 20px;
     background-color: #fff;
@@ -11,6 +12,10 @@
         font-size: 2.5em;
         color: #00796b;
         margin-bottom: 10px;
+    }
+
+    .event-details-container ul {
+        padding-inline-start: 0px;
     }
 
     .event-details-container p {
@@ -55,6 +60,22 @@
         color: #333;
         margin-bottom: 5px;
         /*white-space: pre-line;*/
+    }
+
+    .note-item small {
+        font-size: 0.8em;
+        color: #666;
+    }
+
+    .note-image {
+        margin-top: 10px;
+    }
+
+    .note-image img {
+        max-width: 200px;
+        max-height: 400px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
 .total-expenses {

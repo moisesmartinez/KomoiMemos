@@ -19,6 +19,7 @@ const EventDetails = () => {
     const [newExpenseCategory, setNewExpenseCategory] = useState("");
     const [newExpenseDescription, setNewExpenseDescription] = useState("");
     const [newExpenseDate, setNewExpenseDate] = useState(new Date().toISOString().split("T")[0]);
+    const [newNoteImage, setNewNoteImage] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -60,6 +61,11 @@ const EventDetails = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
+
+            const notesWithImages = response.data.map(note => ({
+                ...note,
+                imageUrl: note.images?.length > 0 ? note.images[0].imageUrl : null
+            }));
 
             setNotes(response.data);
         } catch (err) {
@@ -109,16 +115,19 @@ const EventDetails = () => {
                 return;
             }
 
-            const payload = {
-                title: newNoteTitle,
-                description: newNoteDescription,
-                type: newNoteType,
-                eventId: id,
-            };
+            const formData = new FormData();
+            formData.append("title", newNoteTitle);
+            formData.append("description", newNoteDescription);
+            formData.append("type", newNoteType);
+            formData.append("eventId", id);
+            if (newNoteImage) {
+                formData.append("imageFile", newNoteImage);
+            }
 
-            const response = await axios.post("https://localhost:7035/api/Notes/notes", payload, {
+            const response = await axios.post("https://localhost:7035/api/Notes/notes", formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data",
                 },
             });
 
@@ -130,6 +139,7 @@ const EventDetails = () => {
             setNewNoteTitle("");
             setNewNoteDescription("");
             setNewNoteType("Memo");
+            setNewNoteImage(null);
         } catch (err) {
             console.error("Error creating note:", err);
             if (err.response) {
@@ -236,6 +246,11 @@ const EventDetails = () => {
                                 <h3>{note.title}</h3>
                                 <p>{formatDescription(note.description)}</p>
                                 <small>Type: {note.type}</small>
+                                {note.imageUrl && (
+                                    <div className="note-image">
+                                        <img src={note.imageUrl} alt="Note attachment" />
+                                    </div>
+                                )}
                                 <small>Created on: {new Date(note.createdAt).toLocaleDateString()}</small>
                             </li>
                         ))}
@@ -317,6 +332,15 @@ const EventDetails = () => {
                                     <option value="Shopping List">Shopping List</option>
                                     <option value="Reminder">Reminder</option>
                                 </select>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="noteImage">Attach Image (optional):</label>
+                                <input
+                                    type="file"
+                                    id="noteImage"
+                                    accept="image/*"
+                                    onChange={(e) => setNewNoteImage(e.target.files[0])}
+                                />
                             </div>
                             {noteErrors.length > 0 && (
                                 <div className="error-message">

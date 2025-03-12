@@ -7,5 +7,6 @@ namespace FinanceMemos.API.Repositories.Interfaces
         Task AddAsync(Event myEvent);
         Task<Event> GetByIdAsync(int id);
         Task<List<Event>> GetByUserIdAsync(int id);
+        Task<bool> IsEventFound(int eventId);
     }
 }
