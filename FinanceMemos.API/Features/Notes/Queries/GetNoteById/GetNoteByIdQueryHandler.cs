@@ -20,7 +20,7 @@ namespace FinanceMemos.API.Features.Notes.Queries.GetNoteById
 
             if (note == null)
             {
-                throw new KeyNotFoundException("Note not found.");
+                throw new System.Collections.Generic.KeyNotFoundException("Note not found.");
             }
 
             var response = new GetNoteByIdResponse

@@ -1,15 +1,22 @@
 using FinanceMemos.API.CustomExceptions;
 using FinanceMemos.API.Data;
+using FinanceMemos.API.GraphQL.Mutation;
+using FinanceMemos.API.GraphQL.Queries;
+
+//using FinanceMemos.API.GraphQL.Mutations;
+//using FinanceMemos.API.GraphQL.Queries;
 using FinanceMemos.API.Repositories;
 using FinanceMemos.API.Repositories.Interfaces;
 using FinanceMemos.API.Services;
 using FinanceMemos.API.Services.Interfaces;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using HotChocolate.Types.Pagination;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Text;
 using System.Text.Json;
 
@@ -88,6 +95,12 @@ builder.Services.AddCors(options =>
         });
 });
 
+//MM 08: Add GraphQL service
+builder.Services
+    .AddGraphQLServer()
+    .AddQueryType<EventQuery>()
+    .AddMutationType<EventMutation>();
+
 
 var app = builder.Build();
 
@@ -142,5 +155,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapGraphQL();
 
 app.Run();

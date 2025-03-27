@@ -17,7 +17,7 @@ namespace FinanceMemos.API.Features.Events.Queries.GetEventById
             var myEvent = await _eventRepository.GetByIdAsync(request.EventId);
             if (myEvent == null)
             {
-                throw new KeyNotFoundException("Event not found.");
+                throw new System.Collections.Generic.KeyNotFoundException("Event not found.");
             }
 
             return new GetEventByIdResponse

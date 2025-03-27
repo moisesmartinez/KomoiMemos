@@ -20,7 +20,7 @@ namespace FinanceMemos.API.Features.Expenses.Queries.GetExpenseById
 
             if (expense == null)
             {
-                throw new KeyNotFoundException("Expense not found.");
+                throw new System.Collections.Generic.KeyNotFoundException("Expense not found.");
             }
 
             return new GetExpenseByIdResponse
